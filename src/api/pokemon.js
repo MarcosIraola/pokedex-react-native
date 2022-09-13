@@ -1,9 +1,9 @@
 import { API_URL } from "@env"
 
-export async function getAllPokemonsApi() {
+export async function getAllPokemonsApi(endpointUrl) {
     try {
         const url = `${API_URL}/pokemon?limit=20&offset=0`;
-        const response = await fetch(url);
+        const response = await fetch(endpointUrl || url);
         const result = await response.json()
         return result;
 
