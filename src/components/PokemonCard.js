@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Image, TouchableWithoutFeedback, ImageBackground } from 'react-native'
 import React from 'react'
-import getColorByPokemonType from '../../utils/colors';
+import getColorByPokemonType from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
 
 export default function PokemonCard(props) {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     image: {
         position:"absolute",
         bottom: 10,
-        right: 10,
+        right: 20,
         width: 90,
         height: 90
     },
