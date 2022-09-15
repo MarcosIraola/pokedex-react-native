@@ -3,10 +3,12 @@ import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { user, userDetails } from '../../utils/userDB'
+import useAuth from '../../hooks/useAuth';
 
 export default function LoginForm() {
 
     const [error, setError] = useState();
+    const { login, logout } = useAuth();
 
     const formik = useFormik({
         initialValues: initialValues(),
@@ -17,8 +19,7 @@ export default function LoginForm() {
             if(formValue.username !== user.username || formValue.password !== user.password) {
                 setError('El usuario o la contraseña no coinciden')
             } else {
-                console.log('Login Ok');
-                console.log(userDetails);
+                login(userDetails);
             }
         }
     })
