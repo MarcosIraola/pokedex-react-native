@@ -4,24 +4,20 @@ import { getPokemonById } from '../api/pokemon';
 import Header from '../components/Pokemon/Header';
 import Type from '../components/Pokemon/Type';
 import Stats from '../components/Pokemon/Stats';
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Favorite from '../components/Pokemon/Favorite';
+import useAuth from '../hooks/useAuth'
 
 export default function Pokemon(props) {
 
     const { navigation, route: {params} } = props;
 
     const [pokemon, setPokemon] = useState()
+    const { auth } = useAuth();
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => 
-            <Icon 
-                name="heart" 
-                color="#fff" 
-                size={20} 
-                style={{ marginRight: 20, marginTop: 10}}
-                onPress={() => console.log('Favorite')}
-            />,
+            headerRight: () => auth ? <Favorite id={pokemon?.id}/> : undefined,
             headerLeft: () => 
                 <Icon 
                     name="arrow-left" 
@@ -31,7 +27,7 @@ export default function Pokemon(props) {
                     onPress={navigation.goBack}
                 />
         })
-    }, [navigation, params])
+    }, [navigation, params, auth, pokemon])
 
     useEffect (() => {
         (async () => {
@@ -45,6 +41,7 @@ export default function Pokemon(props) {
     }, [params])
 
     if (!pokemon) return null;
+    
     return (
         <ScrollView>
             <Header 

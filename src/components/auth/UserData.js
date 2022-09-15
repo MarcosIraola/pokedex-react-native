@@ -19,7 +19,6 @@ export default function UserData() {
                 <ItemMenu title="Nombre" text={`${user.firstName} ${user.lastName}`}/>
                 <ItemMenu title="Email" text={`${user.email}`}/>
                 <ItemMenu title="Favoritos" text={`0 Pokemons`}/>
-
             </View>
             <Button
                 title="Cerrar sesión"
