@@ -1,19 +1,21 @@
 import { View, Text, TextInput, StyleSheet, Button, Keyboard } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { user, userDetails } from '../../utils/userDB'
 
 export default function LoginForm() {
 
+    const [error, setError] = useState();
+
     const formik = useFormik({
         initialValues: initialValues(),
         validationSchema: Yup.object(validationSchema()),
         validateOnChange: false,
         onSubmit: (formValue) => {
-            
+            setError('')
             if(formValue.username !== user.username || formValue.password !== user.password) {
-                console.log('El usuario o la contraseña no coinciden')
+                setError('El usuario o la contraseña no coinciden')
             } else {
                 console.log('Login Ok');
                 console.log(userDetails);
@@ -31,7 +33,7 @@ export default function LoginForm() {
     function validationSchema() {
         return {
             username: Yup.string().required("El usuario es obligatorio"),
-            password: Yup.string().required("La contraseña es obligatorio"),
+            password: Yup.string().required("La contraseña es obligatoria"),
         }
     }
 
@@ -45,7 +47,6 @@ export default function LoginForm() {
                 value={formik.values.username}
                 onChangeText={(text) => formik.setFieldValue('username', text)}
             />
-            <Text style={styles.error}>{formik.errors.username}</Text>
             <TextInput
                 placeholder='Contraseña'
                 style={styles.input}
@@ -54,13 +55,13 @@ export default function LoginForm() {
                 value={formik.values.password}
                 onChangeText={(text) => formik.setFieldValue('password', text)}
             />
-            <Text style={styles.error}>{formik.errors.password}</Text>
             <Button 
                 title="Entrar"
                 onPress={formik.handleSubmit}
             />
-
-
+            <Text style={styles.error}>{formik.errors.username}</Text>
+            <Text style={styles.error}>{formik.errors.password}</Text>
+            <Text style={styles.error}>{error}</Text>
         </View>
     )
 }
