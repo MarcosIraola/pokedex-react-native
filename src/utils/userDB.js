@@ -9,3 +9,5 @@ export const userDetails = {
     lastName: 'Iraola',
     email: 'marcos@gmail.com'
 }
+
+export const FAVORITE_STORAGE = 'favorites';
