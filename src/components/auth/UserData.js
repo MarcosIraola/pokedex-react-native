@@ -1,13 +1,30 @@
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native';
 import useAuth from '../../hooks/useAuth';
-import { capitalize } from 'lodash';
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import { capitalize, size } from 'lodash';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { getPokemonFavorites } from '../../api/favorite';
 
 export default function UserData() {
 
     const { auth, logout } = useAuth();
     const user = { ...auth }
+
+    const [total, setTotal] = useState(0);
+
+    useFocusEffect(
+        useCallback(() => {
+            (async () => {
+                try {
+                    const response = await getPokemonFavorites();
+                    setTotal(size(response))
+                } catch (error) {
+                    setTotal(0)
+                }
+            })()
+        }, [])
+    )
 
     return (
         <View style={styles.content}>
@@ -18,14 +35,13 @@ export default function UserData() {
                 <ItemMenu title="Username" text={`${user.username}`}/>
                 <ItemMenu title="Nombre" text={`${user.firstName} ${user.lastName}`}/>
                 <ItemMenu title="Email" text={`${user.email}`}/>
-                <ItemMenu title="Favoritos" text={`0 Pokemons`}/>
+                <ItemMenu title="Favoritos" text={`${total} Pokemons`}/>
             </View>
             <Button
                 title="Cerrar sesión"
                 onPress={logout}
             />
         </View>
-
     )
 }
 
