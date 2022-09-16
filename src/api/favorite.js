@@ -19,4 +19,14 @@ export async function addPokemonToFavorite (id) {
     } catch (error) {
         throw(error)
     }
+
+}
+
+export async function isPokemonFavorite(id) {
+    try {
+        const response = await getPokemonFavorites();
+        return includes(response, id)
+    } catch (error) {
+        throw error
+    }
 }
